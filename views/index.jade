@@ -7,7 +7,6 @@ block content
   form(id='validateByUrl', method='GET', action='/validate')
     .form-group
       label(for='url') URL
-      |
       input#url.form-control(type='url', name='url', placeholder='URL')
       p.help-block This is the URL of an Activity Streams 2.0 document.
     button.btn.btn-default(type='submit') Validate
@@ -15,7 +14,6 @@ block content
   form(id='validateByData', method='POST', action='/validate')
     .form-group
       label(for='data') Data
-      |
       textarea#data.form-control(rows='8', name='data')
       p.help-block If you just need to validate some data, put it here.
     button.btn.btn-default(type='submit') Validate
@@ -23,7 +21,6 @@ block content
   form(id='validateByUpload', method='POST', action='/validate')
     .form-group
       label(for='file') File
-      |
       input#file.form-control(type='file', name='file', placeholder='URL')
       p.help-block You can upload a file here.
     button.btn.btn-default(type='submit') Validate
