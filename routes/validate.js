@@ -12,14 +12,52 @@
 var express = require('express');
 var upload = require('multer')({dest: process.env['UPLOADS'] || '/tmp/uploads'});
 var as = require('activitystrea.ms');
+var request = require('request');
 
 var router = express.Router();
 
+var roundtrip = function(raw, callback) {
+  try {
+    var input = JSON.parse(raw);
+  } catch (err) {
+    return callback(err);
+  }
+  as.import(input, function(err, results) {
+    if (err) {
+      callback(err);
+    } else {
+      results.prettyWrite(function(err, output) {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, output);
+        }
+      });
+    }
+  });
+};
+
 router.get('/', function(req, res, next) {
+  var url;
   if (!req.query || !req.query.url) {
     next(new Error("No URL provided"));
   }
-  res.send("Validation report for "+url);
+  url = req.query.url;
+  request.get(url, function(err, response, body) {
+    if (err) {
+      next(err);
+    } else if (response.statusCode != 200) {
+      next(new Error("Unexpected status code" + response.statusCode));
+    } else {
+      roundtrip(body, function(err, output) {
+        if (err) {
+          next(err);
+        } else {
+          res.render("validate", {title: "Validation Report", url: url, input: body, output: output});
+        }
+      });
+    }
+  });
 });
 
 /* Validate input, print some output */
@@ -33,22 +71,11 @@ router.post('/', function(req, res, next) {
     if (!req.body || !req.body.data) {
       return next(new Error("No data"));
     }
-    try {
-      var input = JSON.parse(req.body.data);
-    } catch (err) {
-      return next(err);
-    }
-    as.import(input, function(err, results) {
+    roundtrip(req.body.data, function(err, output) {
       if (err) {
         next(err);
       } else {
-        results.prettyWrite(function(err, output) {
-          if (err) {
-            next(err);
-          } else {
-            res.render("validate", {title: "Validation Report", input: req.body.data, output: output});
-          }
-        });
+        res.render("validate", {title: "Validation Report", input: req.body.data, output: output});
       }
     });
   } else if (req.is('multipart')) {
