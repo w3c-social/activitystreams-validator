@@ -18,6 +18,7 @@
 var app = require('../app');
 var debug = require('debug')('activitystreams-validator:server');
 var http = require('http');
+var https = require('https');
 
 /**
  * Get port from environment and store in Express.
@@ -27,10 +28,16 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTP or HTTPS server.
  */
 
-var server = http.createServer(app);
+var server = null;
+
+if (process.env.KEY) {
+  server = https.createServer({key: process.env.KEY, cert: process.env.CERT}, app);
+} else {
+  server = http.createServer(app);
+}
 
 /**
  * Listen on provided port, on all network interfaces.
