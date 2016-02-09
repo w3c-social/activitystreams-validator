@@ -3,13 +3,16 @@ extends layout
 block content
   h1 Validation results
 
+  if typeof(url) !== 'undefined'
+    p
+      a(href=url) #{url}
+
   form(id='validateByData', method='POST', action='/validate')
     .form-group
       label(for='data') Data
       textarea#data.form-control(rows='8', name='data') #{input}
     button.btn.btn-default(type='submit') Re-submit
-  
+
   h2 Parsed data
   code
     pre #{output}
-    
