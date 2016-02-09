@@ -6,7 +6,7 @@
 // under the W3C® Software License [1] in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.
-// 
+//
 // [1] http://www.w3.org/Consortium/Legal/copyright-software
 
 var express = require('express');
@@ -17,7 +17,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var validate = require('./routes/validate');
 
 var app = express();
 
@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/validate', validate);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
