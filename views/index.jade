@@ -4,7 +4,7 @@ block content
   h1= title
   p This service lets you validate your Activity Streams 2.0 (AS2) data.
 
-  form(id='validateByUrl', method='GET', action='validate')
+  form(id='validateByUrl', method='GET', action='/validate')
     .form-group
       label(for='url') URL
       |
@@ -12,7 +12,7 @@ block content
       p.help-block This is the URL of an Activity Streams 2.0 document.
     button.btn.btn-default(type='submit') Validate
 
-  form(id='validateByData', method='POST', action='validate')
+  form(id='validateByData', method='POST', action='/validate')
     .form-group
       label(for='data') Data
       |
@@ -20,7 +20,7 @@ block content
       p.help-block If you just need to validate some data, put it here.
     button.btn.btn-default(type='submit') Validate
 
-  form(id='validateByUpload', method='POST', action='validate')
+  form(id='validateByUpload', method='POST', action='/validate')
     .form-group
       label(for='file') File
       |
