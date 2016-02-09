@@ -15,3 +15,17 @@ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 Installation
 ------------
+
+There is a live version available so you should use that if you can.
+
+  https://as2.rocks/
+
+If you want to run your own, there is a Docker container:
+
+  https://hub.docker.com/r/w3csocial/activitystreams-validator/
+
+If you just want to run from your own server, you should be able to do this in
+your working directory:
+
+  npm install
+  npm start
