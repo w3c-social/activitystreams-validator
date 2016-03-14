@@ -27,5 +27,7 @@ If you want to run your own, there is a Docker container:
 If you just want to run from your own server, you should be able to do this in
 your working directory:
 
+```
   npm install
   npm start
+```
