@@ -15,6 +15,7 @@
     "serve-favicon": "~2.3.0",
     "multer": "^1.1.0",
     "activitystrea.ms": "^0.14.0",
-    "request": "^2.69.0"
+    "request": "^2.69.0",
+    "lodash": "^4.5.1"
   }
 }

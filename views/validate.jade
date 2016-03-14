@@ -13,6 +13,20 @@ block content
       textarea#data.form-control(rows='8', name='data') #{input}
     button.btn.btn-default(type='submit') Re-submit
 
+  h2 Notes
+  table.table
+    tbody
+      tr
+        th Level
+        th Path
+        th Note
+
+      each note in notes
+        tr
+          td= note.level
+          td= note.path
+          td= note.text
+
   h2 Parsed data
   code
     pre #{output}

@@ -14,28 +14,9 @@ var upload = require('multer')({dest: process.env['UPLOADS'] || '/tmp/uploads'})
 var as = require('activitystrea.ms');
 var request = require('request');
 
-var router = express.Router();
+var Validator = require('../lib/validator');
 
-var roundtrip = function(raw, callback) {
-  try {
-    var input = JSON.parse(raw);
-  } catch (err) {
-    return callback(err);
-  }
-  as.import(input, function(err, results) {
-    if (err) {
-      callback(err);
-    } else {
-      results.prettyWrite(function(err, output) {
-        if (err) {
-          callback(err);
-        } else {
-          callback(null, output);
-        }
-      });
-    }
-  });
-};
+var router = express.Router();
 
 router.get('/', function(req, res, next) {
   var url;
@@ -49,13 +30,10 @@ router.get('/', function(req, res, next) {
     } else if (response.statusCode != 200) {
       next(new Error("Unexpected status code" + response.statusCode));
     } else {
-      roundtrip(body, function(err, output) {
-        if (err) {
-          next(err);
-        } else {
-          res.render("validate", {title: "Validation Report", url: url, input: body, output: output});
-        }
-      });
+      val = new Validator();
+      val.validateHTTPResponse(url, response);
+      val.validateData(body);
+      res.render("validate", {title: "Validation Report", notes: val.getNotes()});
     }
   });
 });
@@ -63,6 +41,7 @@ router.get('/', function(req, res, next) {
 /* Validate input, print some output */
 
 router.post('/', function(req, res, next) {
+  var val;
   if (req.is('json')) {
     // Validate req.body
     // Output some kind of validation report
@@ -71,13 +50,9 @@ router.post('/', function(req, res, next) {
     if (!req.body || !req.body.data) {
       return next(new Error("No data"));
     }
-    roundtrip(req.body.data, function(err, output) {
-      if (err) {
-        next(err);
-      } else {
-        res.render("validate", {title: "Validation Report", input: req.body.data, output: output});
-      }
-    });
+    val = new Validator();
+    val.validateData(req.body.data);
+    res.render("validate", {title: "Validation Report", notes: val.getNotes()});
   } else if (req.is('multipart')) {
     upload.single('file')(req, res, function(err) {
       if (err) {
