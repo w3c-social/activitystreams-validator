@@ -22,11 +22,7 @@ block content
         th Note
 
       each note in notes
-        tr
+        tr(class=(note.level=="error"?"danger":note.level))
           td= note.level
-          td= note.path
+          td= "/" + note.path.join("/")
           td= note.text
-
-  h2 Parsed data
-  code
-    pre #{output}
