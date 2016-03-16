@@ -33,7 +33,7 @@ router.get('/', function(req, res, next) {
       val = new Validator();
       val.validateHTTPResponse(url, response);
       val.validateData(body);
-      res.render("validate", {title: "Validation Report", notes: val.getNotes()});
+      res.render("validate", {title: "Validation Report", input: body, notes: val.getNotes()});
     }
   });
 });
@@ -52,7 +52,7 @@ router.post('/', function(req, res, next) {
     }
     val = new Validator();
     val.validateData(req.body.data);
-    res.render("validate", {title: "Validation Report", notes: val.getNotes()});
+    res.render("validate", {title: "Validation Report", input: req.body.data, notes: val.getNotes()});
   } else if (req.is('multipart')) {
     upload.single('file')(req, res, function(err) {
       if (err) {
