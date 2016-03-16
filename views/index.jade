@@ -18,12 +18,16 @@ block content
       p.help-block If you just need to validate some data, put it here.
     button.btn.btn-default(type='submit') Validate
 
-  form(id='validateByUpload', method='POST', action='/validate')
+  form(id='validateByUpload', method='POST', action='/validate', enctype='multipart/form-data')
     .form-group
       label(for='file') File
       input#file.form-control(type='file', name='file', placeholder='URL')
       p.help-block You can upload a file here.
     button.btn.btn-default(type='submit') Validate
 
-  p You can also use the /validate endpoint to send data from the command line
-  | or your favourite programming language.
+  p
+   | You can also use the /validate endpoint to send data from the command line
+   | or your favourite programming language. For example:
+   blockquote
+     code
+       | curl -H "Content-Type: application/activity+json" --data @yourfile.json http://as2.rocks/validate

@@ -9,6 +9,8 @@
 //
 // [1] http://www.w3.org/Consortium/Legal/copyright-software
 
+var fs = require('fs');
+
 var express = require('express');
 var upload = require('multer')({dest: process.env['UPLOADS'] || '/tmp/uploads'});
 var as = require('activitystrea.ms');
@@ -53,16 +55,21 @@ router.post('/', function(req, res, next) {
     val = new Validator();
     val.validateData(req.body.data);
     res.render("validate", {title: "Validation Report", input: req.body.data, notes: val.getNotes()});
-  } else if (req.is('multipart')) {
+  } else if (req.is('multipart/form-data')) {
     upload.single('file')(req, res, function(err) {
       if (err) {
         return next(err);
+      } else {
+        fs.readFile(req.file.path, "utf8", function(err, data) {
+          if (err) {
+            return next(err);
+          } else {
+            val = new Validator();
+            val.validateData(data);
+            res.render("validate", {title: "Validation Report", input: data, notes: val.getNotes()});
+          }
+        });
       }
-      // Read the file
-      // Parse the data
-      // Validate
-      // Output HTML validation report
-      res.send("Validation report for file");
     });
   } else {
     next(new Error("Unexpected POST request type"));
