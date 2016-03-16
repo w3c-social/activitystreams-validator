@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   var val;
-  if (req.is('json')) {
+  if (req.is('json') || req.is('application/activity+json') || req.is('application/ld+json')) {
     val = new Validator();
     val.validateTopLevelItem(req.body);
     res.json({title: "Validation Report", input: req.body, notes: val.getNotes()});
