@@ -43,9 +43,9 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var val;
   if (req.is('json')) {
-    // Validate req.body
-    // Output some kind of validation report
-    res.json({status: "unimplemented"})
+    val = new Validator();
+    val.validateTopLevelItem(req.body);
+    res.json({title: "Validation Report", input: req.body, notes: val.getNotes()});
   } else if (req.is('urlencoded')) {
     if (!req.body || !req.body.data) {
       return next(new Error("No data"));
