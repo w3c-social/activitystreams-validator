@@ -21,12 +21,17 @@ var Validator = require('../lib/validator');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  var url;
+  var options;
   if (!req.query || !req.query.url) {
     next(new Error("No URL provided"));
   }
-  url = req.query.url;
-  request.get(url, function(err, response, body) {
+  options = {
+    url: req.query.url,
+    headers: {
+      'accept': 'application/activity+json;q=1.0,application/ld+json;q=0.8,application/json;q=0.6,*/*;q=0.1'
+    }
+  };
+  request.get(options, function(err, response, body) {
     if (err) {
       next(err);
     } else if (response.statusCode != 200) {
