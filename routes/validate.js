@@ -25,6 +25,7 @@ router.get('/', function(req, res, next) {
   if (!req.query || !req.query.url) {
     next(new Error("No URL provided"));
   }
+  url = req.query.url;
   options = {
     url: req.query.url,
     headers: {
