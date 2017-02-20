@@ -3,7 +3,9 @@
   "version": "0.4.4",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "docker": "docker build -t w3csocial/activitystreams-validator:${npm_package_version} . && docker tag w3csocial/activitystreams-validator:${npm_package_version} w3csocial/activitystreams-validator:latest",
+    "push": "docker push w3csocial/activitystreams-validator:${npm_package_version} && docker push w3csocial/activitystreams-validator:latest"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
