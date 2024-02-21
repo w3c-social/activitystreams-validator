@@ -16,9 +16,9 @@ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Installation
 ------------
 
-There is a live version available so you should use that if you can.
+There was a live version available at as2.rocks until late 2018.
 
-  https://as2.rocks/
+Please feel free to setup your own instance and submit a patch here to link to it!
 
 If you want to run your own, there is a Docker container:
 
